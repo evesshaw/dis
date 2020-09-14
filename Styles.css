@@ -1,0 +1,91 @@
+h1 {
+	font-family: Komrade;
+	font-size: 100px;
+	text-align: center;
+	text-transform: uppercase;
+	font-style: normal;
+	color: #f0de89;
+	font-weight: 100;
+}
+body p {
+	font-family: Helvetica;
+	font-style: normal;
+	text-align: center;
+	margin-left: 11%;
+	margin-right: 11%;
+	font-size: large;
+	color: #F9F7F7;
+	line-height: 21pt;
+	border-radius: 20px;
+}
+h2 {
+	text-align: center;
+	font-family: Baskerville, "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", serif;
+	font-size: x-large;
+	color: #E9E3E3;
+}
+body h3 {
+	text-align: center;
+}
+svg1 {
+	text-align: center;
+}
+footer {
+	text-align: center;
+	font-family: Constantia, "Lucida Bright", "DejaVu Serif", Georgia, serif;
+	color: #6E6969;
+	clear: both;
+}
+section {
+	overflow-x: scroll;
+	overflow-y: scroll;
+	opacity: 1;
+	margin-right: 0px;
+	float: right;
+}
+body section h2 {
+	width: 50%;
+	float: left;
+	margin-top: 2%;
+	margin-right: 2%;
+	margin-bottom: 2%;
+	margin-left: 2%;
+	right: 50%;
+}
+body aside {
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+body nav {
+	color: #FFFFFF;
+	background-color: #FFFFFF;
+	text-transform: uppercase;
+	text-align: center;
+	margin-top: 5px;
+}
+image eyes {
+	text-align: center;
+}
+main {
+	background-color: #C79676;
+	text-align: center;
+}
+body ul {
+	color: #F5F5F5;
+	text-align: center;
+	line-height: 35pt;
+	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", serif;
+	font-size: large;
+	border-radius: 16px;
+	text-shadow: 0px 0px #454545;
+	margin-top: 21px;
+	margin-right: 21px;
+	margin-bottom: 21px;
+	margin-left: 21px;
+}
+body section good earth {
+	width: 50%;
+	margin-right: 50%;
+}
