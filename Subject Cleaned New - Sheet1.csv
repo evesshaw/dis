@@ -1,9 +1,9 @@
 Country,Value
-feature films / 114,114
-fiction films/ 77,77
-films video/ 73,73
-united states / 54,54
-drama feature / 53,53
+feature films (114),114
+fiction films (77),77
+films video (73),73
+united states (54),54
+drama feature (53),53
 film adaptations(51),51
 films fiction(44),44
 films feature(41),41
@@ -19,8 +19,6 @@ california los(21),21
 1939 1945 (20),20
 action and(20),20
 adventure films(20),20
-and adventure(20),20
-films film(20),20
 motion pictures(20),20
 1961 1975 (18),18
 japan drama(18),18
