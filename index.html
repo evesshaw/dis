@@ -1,0 +1,403 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Diss</title>
+<link href="Styles.css" rel="stylesheet" type="text/css">
+<link href="typewriter.css" rel="stylesheet" type="text/css">
+
+	<script src="http://use.edgefonts.net/averia-serif-libre:n3:default.js" type="text/javascript"></script>
+</head>
+
+<main>
+<body>
+	
+<nav><a href="index.html">Refresh</a></nav>
+<aside>
+	<h1>	Portrayals of Asians in Film </h1>
+</aside>
+	
+  <h2>	Visualising Ithaca College Library Data: Graphs, Illustrations and Interactive Database Exploring</h2>
+
+
+<p>It all started with my love for films, and teenage obsession with Lindsay Lohan.</p>
+
+<p>Freaky Friday was a movie I've watched over and over again growing up. It was the reason I wanted to form a band, to dye my hair, and to perform at the House of Blues. More than a decade has passed since it came out, but it will forever hold a special place in my heart. Perhaps it wasn't a perfect 10 to critics, but everything about it was to me - aside from the fact that the Chinese restaurant owners spoke understandable Mandarin and Cantonese, but many of the sentences made no sense. </p>
+
+  <img src="freaky friday famzz.png" width="800" height="600" alt=""/>
+	
+<p>I grew up in a multicultural and multilingual household. Patience and compassion is something that is instilled in me. To a young me, that error was just amusing. However, as I've grown older, I've realised that my reaction of seeing someone of Asian descent appear on screen is not normal. The underrepresentation, sadly, is not the only issue; misrepresentation is, too. More often than not, the Asian character is an insignificant role. Sometimes the sidekick, sometimes the best friend, and sometimes stereotypical, or occasionally, supposedly fluent in an Asian language but even native speakers fail to make out what they're saying, they are all a misrepresentation of the community. </p>
+	
+	
+	
+<p>To see how data visualisation can aid our understanding of portrayals of Asians in film, I worked with the curated list of films from the library of Ithaca College. After cleaning and clearing the data (only film and those with valid links are included), I've gathered them into separate Google Sheets, produced a bar chart, a radius chart and a lollipop chart using D3.js. </p>
+	
+
+	
+<h3>
+  <!-- Load d3.js -->
+  <script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- ID the chart -->
+<div id="barchart"></div>
+
+<script>
+
+// set the dimension & margins of the bar chart
+var margin = {top: 10, right: 30, bottom: 90, left: 40},
+    width = 560 - margin.left - margin.right,
+    height = 550 - margin.top - margin.bottom;
+
+// append the svg object
+var svg = d3.select("#barchart")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// Parse data
+d3.csv("https://raw.githubusercontent.com/evesshaw/dis/master/Period%20x%20Amount%20-%20Sheet1.csv", function(data) {
+
+// X axis
+var x = d3.scaleBand()
+  .range([ 0, width ])
+  .domain(data.map(function(d) { return d.Period; }))
+  .padding(0.2);
+svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))
+  .selectAll("text")
+    .attr("transform", "translate(-10,0)rotate(-45)")
+    .style("text-anchor", "end")
+	.style("font-size", 15)
+    .style("fill", "#ffffff");
+
+//  Y axis
+var y = d3.scaleLinear()
+  .domain([0, 50])
+  .range([ height, 0]);
+svg.append("g")
+  .call(d3.axisLeft(y));
+
+// Bars
+svg.selectAll("mybar")
+  .data(data)
+  .enter()
+  .append("rect")
+    .attr("x", function(d) { return x(d.Period); })
+    .attr("width", x.bandwidth())
+    .attr("fill", "#89cff0")
+    // bar appears once it starts loading so no bar in the beginning
+    .attr("height", function(d) { return height - y(0); }) 
+    .attr("y", function(d) { return y(0); })
+
+// Animation
+svg.selectAll("rect")
+  .transition()
+  .duration(3000)
+  .attr("y", function(d) { return y(d.Amount); })
+  .attr("height", function(d) { return height - y(d.Amount); })
+  .delay(function(d,i){console.log(i) ; return(i*100)})
+
+})
+
+</script>
+</h3>
+	
+	
+<p>Ithaca College is home to one of the most prestigious film programs, which means that its collection isn't too minimal. Just by clicking through their collection and selecting the 'Action and Adventures Film' section, 586 results showed up. However, as seen in the bar chart above, the decade with the most films of Asian portrayals is the 00's, yet there aren't even 50 films during that period in their collection - 38 to be exact, and the total amount showcasing Asian portrayals? 115, including content containing Yellowface, characters that are whitewashed, non-speaking roles or a simple mention of the community. </p>	
+	
+	
+<meta charset="utf-8">
+
+<!-- Load d3.js & color scale -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+<!-- Function for radial charts -->
+<script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3-scale-radial.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="radius"></div>
+
+<script>
+
+// dimension & margins of the graph
+var margin = {top: 100, right: 0, bottom: 0, left: 0},
+    width = 760 - margin.left - margin.right,
+    height = 760 - margin.top - margin.bottom,
+    innerRadius = 95,
+    outerRadius = Math.min(width, height) / 2;   
+
+// append the svg3 object
+var svg3 = d3.select("#radius")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2 + margin.top) + ")");
+
+d3.csv("https://raw.githubusercontent.com/evesshaw/evesshaw.github.io/master/Genre%20Cleared%20-%20Sheet1.csv", function(data) {
+
+  // Axis / Scales
+  var x = d3.scaleBand()
+      .range([0, 2 * Math.PI])    // X axis goes from 0 to 2pi = all around the circle. If I stop at 1Pi, it will be around a half circle
+      .align(0)                  
+      .domain(data.map(function(d) { return d.Country; })); 
+  var y = d3.scaleRadial()
+      .range([innerRadius, outerRadius])   
+      .domain([0, 120]); 
+
+  // Bars
+  svg3.append("g")
+    .selectAll("path")
+    .data(data)
+    .enter()
+    .append("path")
+      .attr("fill", "#9676c7")
+      .attr("d", d3.arc()     // imagine your doing a part of a donut plot
+          .innerRadius(innerRadius)
+          .outerRadius(function(d) { return y(d['Value']); })
+          .startAngle(function(d) { return x(d.Country); })
+          .endAngle(function(d) { return x(d.Country) + x.bandwidth(); })
+          .padAngle(0.01)
+          .padRadius(innerRadius))
+
+  // Labels
+  svg3.append("g")
+      .selectAll("g")
+      .data(data)
+      .enter()
+      .append("g")
+        .attr("text-anchor", function(d) { return (x(d.Country) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
+        .attr("transform", function(d) { return "rotate(" + ((x(d.Country) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(d['Value'])+10) + ",0)"; })
+      .append("text")
+        .text(function(d){return(d.Country)})
+        .attr("transform", function(d) { return (x(d.Country) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
+        .style("font-size", "16px")
+        .style("fill", "white")
+        .attr("alignment-baseline", "middle")
+
+});
+
+</script>
+
+
+<p>Only four genres exist in the 'Portrayals of Asians in Film' collection in the Ithaca College Library: Drama, Film Adaptions, Action and Juvenile Film. Upon clearing the data, I've noticed that Asians are often portrayed as villains, martial artists, or as a 'bond girl' when featured in Action films. </p>
+	
+<p>Asian women, if they are 'good', they are seen as submissive and serving, but if they are loud and aggressive, then they are the hot 'dragon lady', and either way, labeled, stereotyped and sexualised. </p>
+	
+
+<img src="asian women 1.png" width="800" height="600" alt=""/>
+	
+<p>Asian men, on the other hand, face the opposite problem. Still labeled and often stereotypical, but they are viewed awkward, effeminate, nerdy, tech-savvy, and so on. The labels are endless, but most of it are categorised as undesirable, a threat and odd in a negative way, enforcing an image that Asian actors are desperately to break out of. </p>
+	
+<img src="asian men.png" width="800" height="600" alt=""/>
+	
+<p>After clearing the data and finding the top word frequencies of the tongue-in-cheek descriptions ICL provides using R, I've filtered out the top three bigrams.</p>	
+	
+
+	
+
+	
+
+	
+
+
+
+<meta charset="utf-8">
+
+
+<!-- ID the graph -->
+<div id="lollipop"></div>
+
+
+<script>
+
+// set the dimensions and margins of the graph
+var margin = {top: 50, right: 30, bottom: 50, left: 270},
+    width = 920 - margin.left - margin.right,
+    height = 1000 - margin.top - margin.bottom;
+
+// append the svg4 object to the body of the page
+var svg4 = d3.select("#lollipop")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// Parse the Data
+d3.csv("https://raw.githubusercontent.com/evesshaw/evesshaw.github.io/master/Subject%20Cleaned%20New%20-%20Sheet1.csv", function(data) {
+
+// sort data
+data.sort(function(b, a) {
+  return a.Value - b.Value;
+});
+
+// X axis
+var x = d3.scaleLinear()
+  .domain([0, 125])
+  .range([ 0, width]);
+svg4.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))
+  .selectAll("text")
+    .attr("transform", "translate(-10,0)rotate(-45)")
+    .style("text-anchor", "end")
+    .style("font-size", 15)
+    .style("fill", "#ffffff");
+
+// Y axis
+var y = d3.scaleBand()
+  .range([ 0, height ])
+  .domain(data.map(function(d) { return d.Country; }))
+  .padding(1);
+svg4.append("g")
+  .call(d3.axisLeft(y))
+  .style("font-size", 15)
+  .style("fill", "white")
+
+// Lines
+svg4.selectAll("myline")
+  .data(data)
+  .enter()
+  .append("line")
+    .attr("x1", x(0))
+    .attr("x2", x(0))
+    .attr("y1", function(d) { return y(d.Country); })
+    .attr("y2", function(d) { return y(d.Country); })
+    .attr("stroke", "white")
+    .style("fill", "white")
+
+// Circles -> start at X=0
+svg4.selectAll("mycircle")
+  .data(data)
+  .enter()
+  .append("circle")
+    .attr("cx", x(0) )
+    .attr("cy", function(d) { return y(d.Country); })
+    .attr("r", "7")
+    .style("fill", "#89f0aa")
+    .attr("stroke", "white")
+
+// Change the X coordinates of line and circle
+svg4.selectAll("circle")
+  .transition()
+  .duration("2500")
+  .attr("cx", function(d) { return x(d.Value); })
+
+svg4.selectAll("line")
+  .transition()
+  .duration(2500)
+  .attr("x1", function(d) { return x(d.Value); })
+
+})
+
+
+</script>
+
+
+<iframe width="1020" height="680" src="https://xd.adobe.com/embed/7b73acd6-e188-4b35-b419-aa8c479d2ca3-2e20/?fullscreen&hints=off" frameborder="0" allowfullscreen></iframe>
+
+	
+	
+	
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="barchart"></div>
+
+
+
+<script>
+
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 30, bottom: 90, left: 40},
+    width = 560 - margin.left - margin.right,
+    height = 550 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#barchart")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// Parse Data
+d3.csv("https://raw.githubusercontent.com/evesshaw/dis/master/Period%20x%20Amount%20-%20Sheet1.csv", function(data) {
+
+// X axis
+var x = d3.scaleBand()
+  .range([ 0, width ])
+  .domain(data.map(function(d) { return d.Period; }))
+  .padding(0.2);
+svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))
+  .selectAll("text")
+    .attr("transform", "translate(-10,0)rotate(-45)")
+    .style("text-anchor", "end")
+  .style("font-size", 15)
+    .style("fill", "#ffffff");
+
+//  Y axis
+var y = d3.scaleLinear()
+  .domain([0, 50])
+  .range([ height, 0]);
+svg.append("g")
+  .call(d3.axisLeft(y));
+
+// Bars
+svg.selectAll("mybar")
+  .data(data)
+  .enter()
+  .append("rect")
+    .attr("x", function(d) { return x(d.Period); })
+    .attr("width", x.bandwidth())
+    .attr("fill", "#89cff0")
+    // no bar at the beginning thus:
+    .attr("height", function(d) { return height - y(0); }) // always equal to 0
+    .attr("y", function(d) { return y(0); })
+
+// Animation
+svg.selectAll("rect")
+  .transition()
+  .duration(3000)
+  .attr("y", function(d) { return y(d.Amount); })
+  .attr("height", function(d) { return height - y(d.Amount); })
+  .delay(function(d,i){console.log(i) ; return(i*100)})
+
+})
+
+</script>
+
+
+	
+<iframe width="1320" height="780" src="https://xd.adobe.com/embed/e750195d-b7c2-415b-999e-c367779eb7ba-b203/?fullscreen&hints=off" frameborder="0" allowfullscreen></iframe>	
+	
+	
+<h4><em>*Note: If you are using an older browser or model, the interactive interface may run slower due to the amount of data it holds. Please be patient or refresh the page if any issue arises. Each film in the library comes with 4 film stills (screenshots), meaning there are over 600 images stored in the interface, excluding the massive amount of texts and icons. Photo credit goes to IMDB, Wikipedia, and Google.</em></h4>
+	
+	
+	
+<p>What do you see after exploring the the database? Here are a few things I've spotted while building it:
+	<p>• Characters that are written to be Asian, are more often than not, not played by someone who is of Asian decent. This is also known as whitewashing or Yellowface, and although Yellowface have seemingly disappeared, whitewashing continued into 2015. </p>
+	<p>• East Asians, although underrepresented, are still portrayed more than South and Southeast Asians. </p>
+	<p>• The roles are often stereotyped or painted in a negative light.</p>
+	<p>• Films that are more accurate and not harmful are directed or written by someone who is of Asian descent.</p>
+	</p>
+
+<p>Of course, there are a lot more issues to be discovered, and to name them all would take away the fun of exploring. <a href="mailto:k19043971@kcl.ac.uk">Tell me</a>what patterns or dynamics you end up spotting!</p>
+	
+	
+<footer><strong>// This site is the project portion of the dissertation of an MA Big Data student at King's College London, 2020. Data clearing, data visualisations, illustrations, designs, codes, and interactive database interface are all done by me, but screenshots of each film are taken from Google, IMDB, and Wikipedia and original source of data comes from the library of Ithaca College, as stated above. //</strong> </footer>
+	
+</body>
+	</main>
+</html>
