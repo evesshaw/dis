@@ -1,0 +1,114 @@
+h1 {
+    font-family: Komrade;
+    font-size: 100px;
+    text-align: center;
+    text-transform: uppercase;
+    font-style: normal;
+    color: #4B29AF;
+    font-weight: 100;
+}
+body p {
+    font-family: Helvetica;
+    font-style: normal;
+    text-align: center;
+    margin-left: 21%;
+    margin-right: 21%;
+    font-size: 16pt;
+    color: #FFFFFF;
+    line-height: 30pt;
+}
+h2 {
+	text-align: center;
+	font-family: Baskerville, "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", serif;
+	font-size: x-large;
+	color: #E9E3E3;
+}
+body h3 {
+	text-align: center;
+}
+svg1 {
+	text-align: center;
+}
+footer {
+    text-align: center;
+    font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+    color: #FFFFFF;
+    clear: both;
+    font-size: 14px;
+    min-height: 0px;
+    line-height: 25px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 30px;
+}
+section {
+	overflow-x: scroll;
+	overflow-y: scroll;
+	opacity: 1;
+	margin-right: 0px;
+	float: right;
+}
+body section h2 {
+    width: 50%;
+    float: left;
+    margin-right: 5%;
+    margin-bottom: 5%;
+    margin-left: 5%;
+    right: 50%;
+}
+body aside {
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+body nav {
+	color: #FFFFFF;
+	background-color: #FFFFFF;
+	text-transform: uppercase;
+	text-align: center;
+	margin-top: 5px;
+}
+image eyes {
+	text-align: center;
+}
+main {
+    background-color: #BE8C77;
+    text-align: center;
+}
+
+/* GLOBAL STYLES */
+body h4 {
+    padding-top: 12em;
+    display: flex;
+    justify-content: center;
+    font-family: Helvetica;
+    font-size: 12ox;
+    color: #FFFFFF;
+    line-height: 30px;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 0%;
+    margin-bottom: 0%;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: orange }
+}
+ui {
+    font-family: Helvetica;
+    font-size: 16pt;
+    line-height: 30pt;
+    text-align: center;
+    margin-left: 21%;
+    margin-right: 21%;
+    color: #FFFFFF;
+}
